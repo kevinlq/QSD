@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+#Qt
+*.user
+*.Debug
+*.Release
+*.MakeFile
+
+tempFiles/

@@ -1,4 +1,5 @@
-include(../../../QSD.pri)
+include ($$PWD/../../libsExport.pri)
+
 
 TEMPLATE = lib
 DEFINES += AGGREGATION_LIBRARY

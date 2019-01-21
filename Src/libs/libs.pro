@@ -1,5 +1,3 @@
-include(../../QSD.pri)
-
 TEMPLATE  = subdirs
 
 SUBDIRS   = \

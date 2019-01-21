@@ -1,5 +1,5 @@
-include(../../QSD.pri)
-#include(../shared/qtsingleapplication/qtsingleapplication.pri)
+include ($$PWD/../appExport.pri)
+include(../shared/qtsingleapplication/qtsingleapplication.pri)
 
 TEMPLATE = app
 CONFIG += qtc_runnable sliced_bundle
@@ -11,6 +11,3 @@ QT  +=core gui widgets qml quick testlib sql network
 
 
 SOURCES += main.cpp
-
-
-CONFIG += no_batch

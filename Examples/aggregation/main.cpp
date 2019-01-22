@@ -27,7 +27,7 @@
 
 #include <QApplication>
 
-MyMain::MyMain(QWidget *parent, Qt::WFlags flags)
+MyMain::MyMain(QWidget *parent, Qt::WindowFlags flags)
     : QWidget(parent, flags)
 {
     ui.setupUi(this);

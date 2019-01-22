@@ -124,3 +124,5 @@ else:linux:{
 }
 
 DIR_DEPEND_DEST = $$PWD/../Bin/$${DIR_PLATFORM}/$${DIR_COMPILER}/$${DIR_COMPILEMODE}
+
+CONFIG += c++14

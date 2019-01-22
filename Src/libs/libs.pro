@@ -1,7 +1,8 @@
 TEMPLATE  = subdirs
 
 SUBDIRS   = \
-    aggregation
-#    extensionsystem
+    aggregation \
+    extensionsystem \
+    utils
 
 CONFIG   += ordered

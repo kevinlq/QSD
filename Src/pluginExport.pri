@@ -1,6 +1,6 @@
-# Config Para
 include($$PWD/../QSD.pri)
 
+# Config Para
 CONFIG(debug, debug|release):{
         FILE_POSTFIX = D
         DIR_COMPILEMODE = Debug
@@ -26,7 +26,7 @@ win32:{
         FILE_DLL_PREFIX =
         FILE_DLL_EXT = .dll
 
-        DESTDIR	= $$PWD/../Bin/$${DIR_PLATFORM}/$${DIR_COMPILEMODE}/$${IDE_CASED_ID}/bin
+        DESTDIR  = $$PWD/../Bin/$${DIR_PLATFORM}/$${DIR_COMPILER}/$${DIR_COMPILEMODE}/$${IDE_CASED_ID}/lib/$${IDE_ID}/plugins
 }
 else:android:{
         CONFIG(ARM_GCC_4.4.3, ARM_GCC_4.4.3|ARM_GCC_4.6|ARM_GCC_4.7|ARM_GCC_4.8):{
@@ -65,7 +65,7 @@ else:android:{
         CONFIG += staticlib
         CONFIG += USE_LIBRARY_ABN
 
-        DESTDIR  = $$PWD/../Bin/$${DIR_PLATFORM}/$${DIR_COMPILER}/$${DIR_COMPILEMODE}/$${IDE_CASED_ID}/bin
+        DESTDIR  = $$PWD/../Bin/$${DIR_PLATFORM}/$${DIR_COMPILER}/$${DIR_COMPILEMODE}/$${IDE_CASED_ID}/lib/$${IDE_ID}/plugins
 }
 else:ios:{
         CONFIG(LLVM, LLVM):{
@@ -83,7 +83,7 @@ else:ios:{
         CONFIG += staticlib
         CONFIG += USE_LIBRARY_ABN
 
-        DESTDIR  = $$PWD/../Bin/$${DIR_PLATFORM}/$${DIR_COMPILER}/$${DIR_COMPILEMODE}/$${IDE_CASED_ID}/bin
+        DESTDIR  = $$PWD/../Bin/$${DIR_PLATFORM}/$${DIR_COMPILER}/$${DIR_COMPILEMODE}/$${IDE_CASED_ID}/lib/$${IDE_ID}/plugins
 }
 else:mac:{
         CONFIG(clang, clang):{
@@ -101,7 +101,7 @@ else:mac:{
         CONFIG += staticlib
         CONFIG += USE_LIBRARY_ABN
 
-        DESTDIR  = $$PWD/../Bin/$${DIR_PLATFORM}/$${DIR_COMPILER}/$${DIR_COMPILEMODE}/$${IDE_CASED_ID}/bin
+        DESTDIR  = $$PWD/../Bin/$${DIR_PLATFORM}/$${DIR_COMPILER}/$${DIR_COMPILEMODE}/$${IDE_CASED_ID}/lib/$${IDE_ID}/plugins
 }
 else:linux:{
         CONFIG(GCC, GCC|GCC32|GCC64):{
@@ -122,9 +122,38 @@ else:linux:{
         FILE_DLL_PREFIX = lib
         FILE_DLL_EXT = .so
 
-        DESTDIR  = $$PWD/../Bin/$${DIR_PLATFORM}/$${DIR_COMPILER}/$${DIR_COMPILEMODE}/$${IDE_CASED_ID}/bin
+        DESTDIR  = $$PWD/../Bin/$${DIR_PLATFORM}/$${DIR_COMPILER}/$${DIR_COMPILEMODE}/$${IDE_CASED_ID}/lib/$${IDE_ID}/plugins
 }
 
 DIR_DEPEND_DEST = $$PWD/../Bin/$${DIR_PLATFORM}/$${DIR_COMPILEMODE}/$${IDE_CASED_ID}/bin
 
-CONFIG += c++14
+# add for plugin
+depfile = $$replace(_PRO_FILE_PWD_, ([^/]+$), \\1/\\1_dependencies.pri)
+exists($$depfile) {
+    include($$depfile)
+    isEmpty(QTC_PLUGIN_NAME): \
+        error("$$basename(depfile) does not define QTC_PLUGIN_NAME.")
+} else {
+    isEmpty(QTC_PLUGIN_NAME): \
+        error("QTC_PLUGIN_NAME is empty. Maybe you meant to create $$basename(depfile)?")
+}
+TARGET = $$QTC_PLUGIN_NAME
+
+#plugin_deps = $$QTC_PLUGIN_DEPENDS
+#plugin_test_deps = $$QTC_TEST_DEPENDS
+#plugin_recmds = $$QTC_PLUGIN_RECOMMENDS
+
+
+# use gui precompiled header for plugins by default
+isEmpty(PRECOMPILED_HEADER):PRECOMPILED_HEADER = $$PWD/shared/qtcreator_gui_pch.h
+
+PLUGINJSON = $$_PRO_FILE_PWD_/$${TARGET}.json
+PLUGINJSON_IN = $${PLUGINJSON}.in
+exists($$PLUGINJSON_IN) {
+    DISTFILES += $$PLUGINJSON_IN
+    QMAKE_SUBSTITUTES += $$PLUGINJSON_IN
+    PLUGINJSON = $$OUT_PWD/$${TARGET}.json
+} else {
+    # need to support that for external plugins
+    DISTFILES += $$PLUGINJSON
+}

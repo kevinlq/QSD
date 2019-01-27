@@ -1,8 +1,8 @@
 TEMPLATE  = subdirs
 
 SUBDIRS += \
-    libs \
-    plugins \
-    app
+#    vcsbase \
+#    coreplugin
+    MyCorePlugin
 
 CONFIG   += ordered

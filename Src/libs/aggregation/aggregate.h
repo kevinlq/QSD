@@ -33,7 +33,7 @@
 #include <QReadWriteLock>
 #include <QReadLocker>
 
-/*
+/**
  * Aggregate 集合|打包
  * 即将多个组件组成一个整体,将多个相关组件定义为一个聚合体
  * https://www.devbean.net/2016/10/qt-creator-source-study-06/

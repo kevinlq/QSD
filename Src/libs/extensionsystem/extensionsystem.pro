@@ -11,17 +11,11 @@ CONFIG += c++14
 
 DEFINES += EXTENSIONSYSTEM_LIBRARY
 
-unix:LIBS += $$QMAKE_LIBS_DYNLOAD
-
-!isEmpty(vcproj) {
-    DEFINES += IDE_TEST_DIR=\"$$IDE_SOURCE_TREE\"
-} else {
-    DEFINES += IDE_TEST_DIR=\\\"$$IDE_SOURCE_TREE\\\"
-}
-
+TARGET = Extensionsystem$${FILE_POSTFIX}
 
 INCLUDEPATH +=$$PWD/../
 INCLUDEPATH +=$$PWD/../aggregation
+INCLUDEPATH +=$$PWD/../utils
 
 HEADERS += pluginerrorview.h \
     plugindetailsview.h \
@@ -50,3 +44,5 @@ FORMS += \
     pluginerrorview.ui \
     plugindetailsview.ui \
     pluginerroroverview.ui
+
+LIBS +=-L$${DIR_DEPEND_DEST} -lUtils$${FILE_POSTFIX}

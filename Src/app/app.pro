@@ -8,7 +8,7 @@ VERSION = $$QTCREATOR_VERSION
 
 QT  +=core gui widgets qml quick testlib sql network
 
-DEFINES *=IDE_SETTINGSVARIANT
+#DEFINES *=IDE_SETTINGSVARIANT
 
 INCLUDEPATH +=$$PWD/../
 INCLUDEPATH +=$$PWD/../libs

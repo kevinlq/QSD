@@ -15,27 +15,27 @@ isEmpty(IDE_CASED_ID):               IDE_CASED_ID = QtDemo
 
 CONFIG += c++14
 
-#defineReplace(qtLibraryTargetName) {
-#   unset(LIBRARY_NAME)
-#   LIBRARY_NAME = $$1
-#   CONFIG(debug, debug|release) {
-#      !debug_and_release|build_pass {
-#          mac:RET = $$member(LIBRARY_NAME, 0)_debug
-#              else:win32:RET = $$member(LIBRARY_NAME, 0)d
-#      }
-#   }
-#   isEmpty(RET):RET = $$LIBRARY_NAME
-#   return($$RET)
-#}
+defineReplace(qtLibraryTargetName) {
+   unset(LIBRARY_NAME)
+   LIBRARY_NAME = $$1
+   CONFIG(debug, debug|release) {
+      !debug_and_release|build_pass {
+          mac:RET = $$member(LIBRARY_NAME, 0)_debug
+              else:win32:RET = $$member(LIBRARY_NAME, 0)d
+      }
+   }
+   isEmpty(RET):RET = $$LIBRARY_NAME
+   return($$RET)
+}
 
-#defineReplace(qtLibraryName) {
-#   RET = $$qtLibraryTargetName($$1)
-#   win32 {
-#      VERSION_LIST = $$split(QTCREATOR_VERSION, .)
-#      RET = $$RET$$first(VERSION_LIST)
-#   }
-#   return($$RET)
-#}
+defineReplace(qtLibraryName) {
+   RET = $$qtLibraryTargetName($$1)
+   win32 {
+      VERSION_LIST = $$split(QTCREATOR_VERSION, .)
+      RET = $$RET$$first(VERSION_LIST)
+   }
+   return($$RET)
+}
 
 #defineTest(minQtVersion) {
 #    maj = $$1
@@ -82,9 +82,9 @@ CONFIG += c++14
 #    }
 #}
 
-#isEmpty(IDE_LIBRARY_BASENAME) {
-#    IDE_LIBRARY_BASENAME = lib
-#}
+isEmpty(IDE_LIBRARY_BASENAME) {
+    IDE_LIBRARY_BASENAME = lib
+}
 
 #equals(TEST, 1) {
 #    QT +=testlib
@@ -205,13 +205,13 @@ CONFIG += c++14
 #    DEFINES += IDE_LIBRARY_BASENAME=\\\"$$IDE_LIBRARY_BASENAME\\\"
 #}
 
-#DEFINES += \
-#    QT_CREATOR \
-#    QT_NO_CAST_TO_ASCII \
-#    QT_RESTRICTED_CAST_FROM_ASCII \
-#    QT_DISABLE_DEPRECATED_BEFORE=0x050600 \
-#    QT_USE_FAST_OPERATOR_PLUS \
-#    QT_USE_FAST_CONCATENATION
+DEFINES += \
+    QT_CREATOR \
+    QT_NO_CAST_TO_ASCII \
+    QT_RESTRICTED_CAST_FROM_ASCII \
+    QT_DISABLE_DEPRECATED_BEFORE=0x050600 \
+    QT_USE_FAST_OPERATOR_PLUS \
+    QT_USE_FAST_CONCATENATION
 
 #unix {
 #    CONFIG(debug, debug|release):OBJECTS_DIR = $${OUT_PWD}/.obj/debug-shared
@@ -232,10 +232,10 @@ CONFIG += c++14
 #    QMAKE_LFLAGS_DEBUG += /INCREMENTAL:NO
 #}
 
-#qt {
-#    contains(QT, core): QT += concurrent
-#    contains(QT, gui): QT += widgets
-#}
+qt {
+    contains(QT, core): QT += concurrent
+    contains(QT, gui): QT += widgets
+}
 
 #QBSFILE = $$replace(_PRO_FILE_, \\.pro$, .qbs)
 #exists($$QBSFILE):DISTFILES += $$QBSFILE

@@ -179,8 +179,9 @@ static bool copyRecursively(const QString &srcFilePath,
 
 static inline QStringList getPluginPaths()
 {
-    QStringList rc(QDir::cleanPath(QApplication::applicationDirPath()
-                                   + '/' + DIR_DEPEND_PLUGIN_PATH));
+//    QStringList rc(QDir::cleanPath(QApplication::applicationDirPath()
+//                                   + '/' + DIR_DEPEND_PLUGIN_PATH));
+    QStringList rc(QDir::cleanPath(DIR_DEPEND_PLUGIN_PATH));
     // Local plugin path: <localappdata>/plugins/<ideversion>
     //    where <localappdata> is e.g.
     //    "%LOCALAPPDATA%\QtProject\qtcreator" on Windows Vista and later
@@ -188,7 +189,10 @@ static inline QStringList getPluginPaths()
     //    "~/Library/Application Support/QtProject/Qt Creator" on Mac
     QString pluginPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
     if (Utils::HostOsInfo::isAnyUnixHost() && !Utils::HostOsInfo::isMacHost())
+    {
         pluginPath += QLatin1String("/data");
+    }
+
     pluginPath += QLatin1Char('/')
             + QLatin1String(Core::Constants::IDE_SETTINGSVARIANT_STR)
             + QLatin1Char('/');
@@ -197,7 +201,9 @@ static inline QStringList getPluginPaths()
                                     Core::Constants::IDE_ID);
     pluginPath += QLatin1String("/plugins/");
     pluginPath += QLatin1String(Core::Constants::IDE_VERSION_LONG);
+
     rc.push_back(pluginPath);
+
     return rc;
 }
 
@@ -343,11 +349,7 @@ int main(int argc, char *argv[])
     pluginManager.setSettings(globalSettings);
 
     // 加载插件
-    //const QStringList pluginPaths = getPluginPaths() + customPluginPaths;
-    customPluginPaths.append("E:/liqi/Cloud/Qt/QSD/Bin/Win32/Release/QtDemo/lib/qtdemo/plugins");
-    const QStringList pluginPaths = customPluginPaths;
-    //qWarning()<<"qi-->>>getPluginPaths:"<<getPluginPaths()<<endl;
-    qWarning()<<"qi--->>>customPluginPaths:"<<customPluginPaths<<endl;
+    const QStringList pluginPaths = getPluginPaths() + customPluginPaths;
 
     PluginManager::setPluginPaths(pluginPaths);
 
@@ -370,14 +372,12 @@ int main(int argc, char *argv[])
         }
     }
 
-
+    /// < 获取当前所有的插件
     const PluginSpecSet plugins = PluginManager::plugins();
-    qWarning()<<"plugin size:"<<plugins.size();
     PluginSpec *coreplugin = 0;
     foreach (PluginSpec *spec, plugins)
     {
-         qWarning()<<"qi-->>>>>spec->name():"<<spec->name();
-
+        /// < 找到 core 插件
         if (spec->name() == QLatin1String(corePluginNameC))
         {
             coreplugin = spec;
@@ -385,8 +385,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    qWarning()<<"qi---load....";
-
+    /// < 判断 是否找到core插件
     if (!coreplugin)
     {
         QString nativePaths = QDir::toNativeSeparators(pluginPaths.join(QLatin1Char(',')));
@@ -395,6 +394,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    /// < 判断core插件是否启用--core插件不能被禁止!!
     if ( !coreplugin->isEffectivelyEnabled())
     {
         const QString reason = QCoreApplication::translate("Application", "Core plugin is disabled.");
@@ -402,6 +402,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    /// < core插件是否有错误
     if (coreplugin->hasError()) {
         displayError(msgCoreLoadFailure(coreplugin->errorString()));
         return 1;
@@ -419,26 +420,32 @@ int main(int argc, char *argv[])
     }
 
     qint64 pid = -1;
-    if (foundAppOptions.contains(QLatin1String(PID_OPTION))) {
+    if (foundAppOptions.contains(QLatin1String(PID_OPTION)))
+    {
         QString pidString = foundAppOptions.value(QLatin1String(PID_OPTION));
         bool pidOk;
         qint64 tmpPid = pidString.toInt(&pidOk);
         if (pidOk)
+        {
             pid = tmpPid;
+        }
     }
 
     bool isBlock = foundAppOptions.contains(QLatin1String(BLOCK_OPTION));
     if (app.isRunning() && (pid != -1 || isBlock
-                            || foundAppOptions.contains(QLatin1String(CLIENT_OPTION)))) {
+                            || foundAppOptions.contains(QLatin1String(CLIENT_OPTION))))
+    {
         app.setBlock(isBlock);
         if (app.sendMessage(PluginManager::serializedArguments(), 5000 /*timeout*/, pid))
             return 0;
 
         // Message could not be send, maybe it was in the process of quitting
-        if (app.isRunning(pid)) {
+        if (app.isRunning(pid))
+        {
             // Nah app is still running, ask the user
             int button = askMsgSendFailed();
-            while (button == QMessageBox::Retry) {
+            while (button == QMessageBox::Retry)
+            {
                 if (app.sendMessage(PluginManager::serializedArguments(), 5000 /*timeout*/, pid))
                     return 0;
                 if (!app.isRunning(pid)) // App quit while we were trying so start a new creator
@@ -452,8 +459,9 @@ int main(int argc, char *argv[])
     }
 
 
+    /// < 加载所有的插件
     PluginManager::loadPlugins();
-    if(coreplugin->hasError())
+    if(coreplugin->hasError())  /// < 这里对core插件还做了一次判断，应该是确保加载所有插件后，core插件无误吧.
     {
         displayError(msgCoreLoadFailure(coreplugin->errorString()));
         return 1;

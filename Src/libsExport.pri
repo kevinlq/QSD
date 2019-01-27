@@ -126,5 +126,3 @@ else:linux:{
 }
 
 DIR_DEPEND_DEST = $$PWD/../Bin/$${DIR_PLATFORM}/$${DIR_COMPILEMODE}/$${IDE_CASED_ID}/bin
-
-CONFIG += c++14

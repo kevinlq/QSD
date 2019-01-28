@@ -1,17 +1,17 @@
 #ifndef QSMAINWINDOW_H
 #define QSMAINWINDOW_H
 
-#include <QMainWindow>
+#include "utils/appmainwindow.h"
 
 class ICore;
 namespace Core{
 namespace Internal{
 
-class QSMainWindow : public QMainWindow
+class QSMainWindow : public Utils::AppMainWindow
 {
     Q_OBJECT
 public:
-    explicit QSMainWindow(QWidget *parent = 0);
+    explicit QSMainWindow();
     ~QSMainWindow();
 
     bool init(QString *errorMessage);
@@ -21,12 +21,16 @@ public:
 public Q_SLOTS:
     void exit();
 
-    void raiseWindow();
-
 protected:
     virtual void closeEvent(QCloseEvent *event);
 
 private:
+    void restoreWindowState();
+
+private:
+    void registerDefaultContainers();
+
+    void registerDefaultActions();
 };
 }//Internal
 }//namespace Core

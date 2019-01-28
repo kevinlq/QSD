@@ -7,6 +7,7 @@ TEMPLATE = lib
 #TARGET = Core$${FILE_POSTFIX}
 
 CONFIG     += plugin plugin_with_soname
+CONFIG += C++11
 
 QT += \
     network \
@@ -14,7 +15,9 @@ QT += \
     qml \
     sql
 
+INCLUDEPATH +=$$PWD/../
 INCLUDEPATH +=$$PWD/../../libs
+INCLUDEPATH +=$$PWD/actionManager
 
 win32 {
     QT += gui-private # Uses QPlatformNativeInterface.
@@ -24,12 +27,13 @@ win32 {
 HEADERS += \
     $$PWD/Id.h \
     $$PWD/QCorePlugin.h \
-    QSMainWindow.h
+    $$PWD/QSMainWindow.h
 
 SOURCES += \
     $$PWD/Id.cpp \
     $$PWD/QCorePlugin.cpp \
-    QSMainWindow.cpp
+    $$PWD/QSMainWindow.cpp
+
 
 EXAMPLE_FILES = $$PWD/Core.json
 

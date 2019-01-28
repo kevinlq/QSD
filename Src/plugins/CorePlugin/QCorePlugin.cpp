@@ -86,7 +86,6 @@ void QCorePlugin::extensionsInitialized()
 bool QCorePlugin::delayedInitialize()
 {
     /// 其他初始化
-    m_mainWindow->show();
     return true;
 }
 

@@ -36,15 +36,15 @@
 
 #include <string.h>
 
-namespace Core {
+namespace CorePlugin {
 
 /*!
-    \class Core::Id
+    \class CorePlugin::Id
 
     \brief The Id class encapsulates an identifier that is unique
     within a specific running \QC process.
 
-    \c{Core::Id} is used as facility to identify objects of interest
+    \c{CorePlugin::Id} is used as facility to identify objects of interest
     in a more typesafe and faster manner than a plain \c QString or
     \c QByteArray would provide.
 
@@ -125,7 +125,7 @@ static quintptr theId(const QByteArray &ba)
 }
 
 /*!
-    \fn Core::Id::Id(quintptr uid)
+    \fn CorePlugin::Id::Id(quintptr uid)
     \internal
 
     Constructs an id given \a UID.
@@ -340,24 +340,24 @@ QString Id::suffixAfter(Id baseId) const
     return n.startsWith(b) ? QString::fromUtf8(n.mid(b.size())) : QString();
 }
 
-} // namespace Core
+} // namespace CorePlugin
 
 QT_BEGIN_NAMESPACE
 
-QDataStream &operator<<(QDataStream &ds, Core::Id id)
+QDataStream &operator<<(QDataStream &ds, CorePlugin::Id id)
 {
     return ds << id.name();
 }
 
-QDataStream &operator>>(QDataStream &ds, Core::Id &id)
+QDataStream &operator>>(QDataStream &ds, CorePlugin::Id &id)
 {
     QByteArray ba;
     ds >> ba;
-    id = Core::Id::fromName(ba);
+    id = CorePlugin::Id::fromName(ba);
     return ds;
 }
 
-QDebug operator<<(QDebug dbg, const Core::Id &id)
+QDebug operator<<(QDebug dbg, const CorePlugin::Id &id)
 {
     return dbg << id.name();
 }

@@ -27,12 +27,14 @@ win32 {
 HEADERS += \
     $$PWD/Id.h \
     $$PWD/QCorePlugin.h \
-    $$PWD/QSMainWindow.h
+    $$PWD/QSMainWindow.h \
+    QMenuManager.h
 
 SOURCES += \
     $$PWD/Id.cpp \
     $$PWD/QCorePlugin.cpp \
-    $$PWD/QSMainWindow.cpp
+    $$PWD/QSMainWindow.cpp \
+    QMenuManager.cpp
 
 
 EXAMPLE_FILES = $$PWD/Core.json

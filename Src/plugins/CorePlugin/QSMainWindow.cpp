@@ -17,6 +17,7 @@
 
 
 #include "coreconstants.h"
+#include "QMenuManager.h"
 
 #include <QEvent>
 #include <QCloseEvent>
@@ -25,15 +26,17 @@
 #include <QSettings>
 #include <QMenuBar>
 
-using namespace Core;
-using namespace Core::Internal;
+using namespace CorePlugin;
+using namespace CorePlugin::Internal;
 
 using namespace ExtensionSystem;
 using namespace Utils;
 
-QSMainWindow::QSMainWindow()
-    : AppMainWindow()
+QSMainWindow::QSMainWindow(QWidget *parent)
+    : AppMainWindow(parent)
+    ,m_pMenuManager(new QMenuManager(this))
 {
+
     registerDefaultContainers();
 
     registerDefaultActions();
@@ -41,6 +44,11 @@ QSMainWindow::QSMainWindow()
 
 QSMainWindow::~QSMainWindow()
 {
+}
+
+QMenuManager *QSMainWindow::menuManager()
+{
+    return m_pMenuManager;
 }
 
 bool QSMainWindow::init(QString *errorMessage)
@@ -109,14 +117,17 @@ void QSMainWindow::restoreWindowState()
 
 void QSMainWindow::registerDefaultContainers()
 {
-//    QMenuBar *pMenuBar = new QMenuBar(this);
-//    this->setMenuBar(pMenuBar);
-
-//    QMenu *pFileMenu = new QMenu("file", pMenuBar);
-//    pMenuBar->addMenu(pFileMenu);
+    /** 注册默认Menu*/
+    m_pMenuManager->addMenu(Constants::HELP_MENU_NAME, Constants::HELP_MENU_PRIORITY);
 }
 
 void QSMainWindow::registerDefaultActions()
 {
-    //
+    /** 注册默认 Action*/
+
+    QAction *pAboutMeAction = new QAction(tr("About Me"), this);
+    m_pMenuManager->addAction(Constants::HELP_MENU_NAME, pAboutMeAction);
+
+    QAction *pAboutPluginsAction = new QAction(tr("About Plugins"), this);
+    m_pMenuManager->addAction(Constants::HELP_MENU_NAME, pAboutPluginsAction);
 }

@@ -35,7 +35,7 @@ class QDataStream;
 class QVariant;
 QT_END_NAMESPACE
 
-namespace Core {
+namespace CorePlugin {
 
 class CORE_EXPORT Id
 {
@@ -83,11 +83,11 @@ inline uint qHash(Id id) { return static_cast<uint>(id.uniqueIdentifier()); }
 
 } // namespace Core
 
-Q_DECLARE_METATYPE(Core::Id)
-Q_DECLARE_METATYPE(QList<Core::Id>)
+Q_DECLARE_METATYPE(CorePlugin::Id)
+Q_DECLARE_METATYPE(QList<CorePlugin::Id>)
 
 QT_BEGIN_NAMESPACE
-QDataStream &operator<<(QDataStream &ds, Core::Id id);
-QDataStream &operator>>(QDataStream &ds, Core::Id &id);
-CORE_EXPORT QDebug operator<<(QDebug dbg, const Core::Id &id);
+QDataStream &operator<<(QDataStream &ds, CorePlugin::Id id);
+QDataStream &operator>>(QDataStream &ds, CorePlugin::Id &id);
+CORE_EXPORT QDebug operator<<(QDebug dbg, const CorePlugin::Id &id);
 QT_END_NAMESPACE

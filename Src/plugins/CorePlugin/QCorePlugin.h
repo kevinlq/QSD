@@ -3,7 +3,7 @@
 
 #include "extensionsystem/iplugin.h"
 
-namespace Core{
+namespace CorePlugin{
 
 namespace Internal{
 

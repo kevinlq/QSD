@@ -9,7 +9,10 @@
 #include "../libs/utils/stringutils.h"
 #include "../libs/utils/mimetypes/mimedatabase.h"
 
+#include "coreconstants.h"
+
 #include "QSMainWindow.h"
+#include "QMenuManager.h"
 
 #include <QtPlugin>
 #include <QDebug>
@@ -17,8 +20,8 @@
 #include <QMenu>
 #include <QUuid>
 
-using namespace Core;
-using namespace Core::Internal;
+using namespace CorePlugin;
+using namespace CorePlugin::Internal;
 
 QCorePlugin::QCorePlugin()
     :m_mainWindow(Q_NULLPTR)
@@ -74,6 +77,9 @@ bool QCorePlugin::initialize(const QStringList &arguments, QString *errorMessage
 void QCorePlugin::extensionsInitialized()
 {
     /// 其他初始化判断
+    m_mainWindow->menuManager()->addMenu(Constants::RADAR_MENU_NAME, Constants::RADAR_MENU_PRIORITY);
+
+    m_mainWindow->setMenuBar(m_mainWindow->menuManager()->createMenuBar());
 
     m_mainWindow->extensionsInitialized();
 

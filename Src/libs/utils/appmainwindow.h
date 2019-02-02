@@ -34,7 +34,7 @@ class QTCREATOR_UTILS_EXPORT AppMainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    AppMainWindow();
+    AppMainWindow(QWidget *parent = 0);
 
 public slots:
     void raiseWindow();

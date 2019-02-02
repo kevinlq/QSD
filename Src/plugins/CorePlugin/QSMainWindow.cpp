@@ -44,6 +44,13 @@ QSMainWindow::QSMainWindow(QWidget *parent)
 
 QSMainWindow::~QSMainWindow()
 {
+    if (m_pMenuManager != Q_NULLPTR)
+    {
+        delete m_pMenuManager;
+        m_pMenuManager = Q_NULLPTR;
+    }
+
+    qDebug()<<"QSMainWindow destrouct";
 }
 
 QMenuManager *QSMainWindow::menuManager()

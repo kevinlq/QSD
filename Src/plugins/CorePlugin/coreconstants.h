@@ -38,8 +38,9 @@ const int  P_MODE_WELCOME          = 100;
 const int  P_MODE_EDIT             = 90;
 const int  P_MODE_DESIGN           = 89;
 
-static const char RADAR_MENU_NAME[] = QT_TRANSLATE_NOOP("Menu", "Radar");
-static const int RADAR_MENU_PRIORITY = 0;
+
+static const char FILE_MENU_NAME[] = QT_TRANSLATE_NOOP("Menu", "File");
+static const int FILE_MENU_PRIORITY = 0;
 
 static const char HELP_MENU_NAME[] = QT_TRANSLATE_NOOP("Menu", "Help");
 static const int HELP_MENU_PRIORITY = 100;

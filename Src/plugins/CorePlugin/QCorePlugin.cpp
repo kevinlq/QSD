@@ -31,11 +31,6 @@ QCorePlugin::QCorePlugin()
 
 QCorePlugin::~QCorePlugin()
 {
-    if (m_mainWindow != Q_NULLPTR)
-    {
-        delete m_mainWindow;
-        m_mainWindow = Q_NULLPTR;
-    }
 }
 
 bool QCorePlugin::initialize(const QStringList &arguments, QString *errorMessage)
@@ -77,7 +72,7 @@ bool QCorePlugin::initialize(const QStringList &arguments, QString *errorMessage
 void QCorePlugin::extensionsInitialized()
 {
     /// 其他初始化判断
-    m_mainWindow->menuManager()->addMenu(Constants::RADAR_MENU_NAME, Constants::RADAR_MENU_PRIORITY);
+    m_mainWindow->menuManager()->addMenu(Constants::FILE_MENU_NAME, Constants::FILE_MENU_PRIORITY);
 
     m_mainWindow->setMenuBar(m_mainWindow->menuManager()->createMenuBar());
 

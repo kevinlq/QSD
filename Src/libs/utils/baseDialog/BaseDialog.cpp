@@ -12,6 +12,8 @@ BaseDialog::BaseDialog(QWidget *parent) : QWidget(parent)
 {
     setWindowFlags (Qt::FramelessWindowHint);
 
+    setAttribute (Qt::WA_ShowModal, true);
+
     m_pBtnClose = new QPushButton(this);
     m_pBtnClose->setText (tr("pbnClose"));
     m_pBtnClose->setMinimumSize (80,26);

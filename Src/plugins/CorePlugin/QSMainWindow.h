@@ -4,6 +4,7 @@
 #include "utils/appmainwindow.h"
 
 class ICore;
+class BaseDialog;
 
 namespace CorePlugin{
 
@@ -39,6 +40,7 @@ private:
 
 private:
     QMenuManager *m_pMenuManager;
+    BaseDialog *m_pAboutMeDialog;
 };
 }//Internal
 }//namespace Core

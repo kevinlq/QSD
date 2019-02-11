@@ -11,6 +11,8 @@
 #include <utils/stringutils.h>
 #include <utils/utilsicons.h>
 
+#include <utils/baseDialog/BaseDialog.h>
+
 #include <../app/app_version.h>
 #include "id.h"
 //#include "icore.h"
@@ -35,6 +37,7 @@ using namespace Utils;
 QSMainWindow::QSMainWindow(QWidget *parent)
     : AppMainWindow(parent)
     ,m_pMenuManager(new QMenuManager(this))
+    ,m_pAboutMeDialog(Q_NULLPTR)
 {
 
     registerDefaultContainers();
@@ -134,6 +137,15 @@ void QSMainWindow::registerDefaultActions()
 
     QAction *pAboutMeAction = new QAction(tr("About Me"), this);
     m_pMenuManager->addAction(Constants::HELP_MENU_NAME, pAboutMeAction);
+
+    connect (pAboutMeAction, &QAction::triggered, [this](){
+        if (m_pAboutMeDialog == Q_NULLPTR)
+        {
+           m_pAboutMeDialog = new BaseDialog;
+        }
+
+        m_pAboutMeDialog->show ();
+    });
 
     QAction *pAboutPluginsAction = new QAction(tr("About Plugins"), this);
     m_pMenuManager->addAction(Constants::HELP_MENU_NAME, pAboutPluginsAction);

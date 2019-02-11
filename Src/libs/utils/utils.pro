@@ -1,12 +1,16 @@
 include ($$PWD/../../libsExport.pri)
 #include(utils-lib.pri)
 
-QT += widgets gui network qml
+QT +=core widgets gui network qml quick
 
 TEMPLATE = lib
 
 TARGET = Utils$${FILE_POSTFIX}
 CONFIG += exceptions # used by portlist.cpp, textfileformat.cpp, and ssh/*
+
+win32:{
+QT  += winextras
+}
 
 win32: LIBS += -luser32 -lshell32
 # PortsGatherer
@@ -278,3 +282,5 @@ osx {
 }
 
 include(mimetypes/mimetypes.pri)
+include (QFrameLessHelper/QFrameLessHelper.pri)
+include (baseDialog/baseDialog.pri)
